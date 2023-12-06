@@ -8,7 +8,7 @@ int main() {
 	int sum = 0;
 
 	if (!input) {
-		fprintf(stderr, "wtf just occurred in front of my eyeballs\n");
+		fprintf(stderr, "WTF");
 		return -1;
 	}
 
@@ -20,6 +20,7 @@ int main() {
 					if (!addnum[0]) addnum[0] = buff[i];
 					addnum[1] = buff[i];
 					break;
+					// remove all following "case" statements to solve part 1
 				case 'o':
 					if (!strncmp((buff + i), "one", 3)) {
 						if (!addnum[0]) addnum[0] = '1';

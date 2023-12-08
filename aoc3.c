@@ -29,7 +29,7 @@ int main() {
 				break;
 			default:
 				for (int j = 0; j < 8; j++) {
-					char num[4] = {0};
+					char num[6] = {0};
 					if (row < 1 && i < 1 && (j < 4 || j == 5)) break;
 					if (row > 1 && i < 1 && (j == 0 || j == 3 || j > 4)) break;
 					if (row < 1 && i > 138 && (j < 4 || j == 5)) break;
@@ -37,22 +37,22 @@ int main() {
 
 					switch (buff[row + where[j][0]][i + where[j][1]]) {
 					case '0'...'9':
-						for (int k = 0; k < 3; k++) {
+						for (int k = 0; k < 4; k++) {
 							int offset = i + where[j][1] - k;
 
 							switch (buff[row + where[j][0]][offset]) {
-							case '0'...'9':
-								break;
-							default:
-								for (int l = 0; l <= k; l++) {
+							case '.':
+								for (int l = 1; l < 4; l++) {
 									num[l] = buff[row + where[j][0]][offset + l];
 								}
 								goto break3;
+							default:
+								break;
 							}
 						}
 					}
 					break3:
-					sum += atoi(num);
+					if (num[1]) sum += atoi(num + 1);
 				}
 			}
 		}

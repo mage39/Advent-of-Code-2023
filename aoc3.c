@@ -38,16 +38,13 @@ int main() {
 					switch (buff[row + where[j][0]][i + where[j][1]]) {
 					case '0'...'9':
 						for (int k = 0; k < 3; k++) {
-							int offset = 0;
-
-							if (where[j][1] < 0) offset = i - where[j][1] - k;
-							else offset = i + where[j][1] - k;
+							int offset = i + where[j][1] - k;
 
 							switch (buff[row + where[j][0]][offset]) {
 							case '0'...'9':
 								break;
 							default:
-								for (int l = 1; l <= k + 1; l++) {
+								for (int l = 0; l <= k; l++) {
 									num[l] = buff[row + where[j][0]][offset + l];
 								}
 								goto break3;

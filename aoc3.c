@@ -17,15 +17,15 @@ int main() {
 		return -1;
 	}
 
-	fgets(buff[0], 160, input);
-	fgets(buff[1], 160, input);
+	fgets(buff[0], 150, input);
+	fgets(buff[1], 150, input);
 
-	while(fgets(buff[2], 160, input)) {
-		lines++;
+	while(fgets(buff[2], 150, input)) {
 		start:
-		for (int i = 0; i < 160 && buff[row][i]; i++) {
+		lines++;
+		for (int i = 0; i < 150 && buff[row][i]; i++) {
 			switch (buff[row][i]) {
-			case '1'...'9': case '.':
+			case '0'...'9': case '.':
 				break;
 			default:
 				for (int j = 0; j < 8; j++) {
@@ -36,33 +36,40 @@ int main() {
 					if (row > 1 && i < 138 && (j == 0 || j == 3 || j > 4)) break;
 
 					switch (buff[row + where[j][0]][i + where[j][1]]) {
-					case '1'...'9':
+					case '0'...'9':
 						for (int k = 0; k < 3; k++) {
-							switch (buff[row + where[j][0]][i + where[j][1] * k]) {
-							case '1'...'9':
+							int offset = 0;
+
+							if (where[j][1] < 0) offset = i - where[j][1] - k;
+							else offset = i + where[j][1] - k;
+
+							switch (buff[row + where[j][0]][offset]) {
+							case '0'...'9':
 								break;
 							default:
-								for (int l = 0; l >= k; k++) {
-									num[l] = buff[row + where[j][0]][i + where[j][1] * k + l];
+								for (int l = 1; l <= k + 1; l++) {
+									num[l] = buff[row + where[j][0]][offset + l];
 								}
+								goto break3;
 							}
 						}
 					}
+					break3:
 					sum += atoi(num);
 				}
 			}
 		}
 		
-		if (!row || lines > 139) {
+		if (!row || lines == 139) {
 			row++;
 			goto start;
 		} else {
-			memcpy(buff[0], buff[1], 160);
-			memcpy(buff[1], buff[0], 160);
+			memcpy(buff[0], buff[1], 150);
+			memcpy(buff[1], buff[0], 150);
 		}
 	}
 
-	printf("%d", sum);
+	printf("%d\n", sum);
 	fclose(input);
 	return 0;
 }

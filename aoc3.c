@@ -42,7 +42,7 @@ int main() {
 							int offset = i + where[j][1] - k;
 
 							switch (buff[row + where[j][0]][offset]) {
-							case '1'...'9': // maybe switch back to OG after dedupe? number too low
+							case '0'...'9':
 								break;
 							default:
 								for (int l = 1; l < 4; l++) {

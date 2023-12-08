@@ -3,7 +3,7 @@
 #include <string.h>
 
 int main() {
-	char buff[3][160] = {0};
+	char buff[3][150] = {0};
 	char where[8][2] = {
 		{-1, -1}, {-1, 0}, {-1, 1},
 		{0,  -1}, 		   {0,  1},
@@ -28,31 +28,34 @@ int main() {
 			case '0'...'9': case '.':
 				break;
 			default:
+				int dedupe = 0;
 				for (int j = 0; j < 8; j++) {
 					char num[6] = {0};
-					if (row < 1 && i < 1 && (j < 4 || j == 5)) break;
-					if (row > 1 && i < 1 && (j == 0 || j == 3 || j > 4)) break;
-					if (row < 1 && i > 138 && (j < 4 || j == 5)) break;
-					if (row > 1 && i < 138 && (j == 0 || j == 3 || j > 4)) break;
+					if (row < 1 && j < 4) break; // top face
+					if (row > 1 && j > 4) break; // bottom face
+					if (i < 1 && (j == 0 || j == 3 || j == 5)) break; // left face
+					if (i > 139 && (j == 2 || j == 4 || j == 7)) break; // right face
 
 					switch (buff[row + where[j][0]][i + where[j][1]]) {
 					case '0'...'9':
-						for (int k = 0; k < 4; k++) {
+						for (int k = 1; k < 4; k++) {
 							int offset = i + where[j][1] - k;
 
 							switch (buff[row + where[j][0]][offset]) {
-							case '.':
+							case '1'...'9': // maybe switch back to OG after dedupe? number too low
+								break;
+							default:
 								for (int l = 1; l < 4; l++) {
-									num[l] = buff[row + where[j][0]][offset + l];
+									num[l - 1] = buff[row + where[j][0]][offset + l];
 								}
 								goto break3;
-							default:
-								break;
 							}
 						}
 					}
 					break3:
-					if (num[1]) sum += atoi(num + 1);
+					int temp = atoi(num);
+					if (temp != dedupe) sum += temp;
+					dedupe = temp;
 				}
 			}
 		}

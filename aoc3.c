@@ -31,14 +31,14 @@ int main() {
 				int dedupe = 0;
 				for (int j = 0; j < 8; j++) {
 					char num[6] = {0};
-					if (row < 1 && j < 4) break; // top face
+					if (row < 1 && j < 3) break; // top face
 					if (row > 1 && j > 4) break; // bottom face
 					if (i < 1 && (j == 0 || j == 3 || j == 5)) break; // left face
 					if (i > 139 && (j == 2 || j == 4 || j == 7)) break; // right face
 
 					switch (buff[row + where[j][0]][i + where[j][1]]) {
 					case '0'...'9':
-						for (int k = 1; k < 4; k++) {
+						for (int k = 1; k < 4; k++) { // invert for. l for possibly redundant?
 							int offset = i + where[j][1] - k;
 
 							switch (buff[row + where[j][0]][offset]) {
